@@ -1,15 +1,15 @@
 name: solr-context-path
 
 services:
-  solr-service:
+  solr-context-path:
     build: 
       context: .
-      dockerfile: solr.dockerfile
+      dockerfile: Dockerfile
       args:
         SOLR_RELEASE_TAG: ${SOLR_RELEASE_TAG}
     image: ${SOLR_IMAGE_NAME}:${SOLR_IMAGE_TAG}
-    container_name: solr-service
-    hostname: solr-service
+    container_name: solr-context-path
+    hostname: solr-context-path
     networks:
       - solr-network
     volumes:
@@ -19,35 +19,10 @@ services:
     environment:
       CONTEXT_PATH: ${CUSTOM_SOLR_CONTEXT_PATH}
       SOLR_PORT: ${SOLR_PORT}
-  solr-proxy:
-    build:
-      context: .
-      dockerfile: nginx.dockerfile
-    image: ${NGINX_IMAGE_NAME}:${NGINX_IMAGE_TAG}
-    container_name: solr-proxy
-    hostname: solr-proxy
-    networks:
-      - solr-network
-    ports:
-      - 80:80
-    volumes:
-      - proxy-nginx-conf-d:/etc/nginx/conf.d
-      - proxy-nginx-html:/usr/share/nginx/html
-    depends_on:
-      - solr-service
-    working_dir: /etc/nginx/conf.d
-    environment:
-      CONTEXT_PATH: ${CUSTOM_SOLR_CONTEXT_PATH}
-      SOLR_HOST: solr-service
-      SOLR_PORT: ${SOLR_PORT}
 
 networks:
   solr-network:
 
 volumes:
   solr-data:
-    driver: local
-  proxy-nginx-conf-d:
-    driver: local
-  proxy-nginx-html:
     driver: local

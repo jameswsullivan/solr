@@ -10,7 +10,7 @@ RUN apt-get update -y && \
 
 COPY ./solr-jetty-context.xml /opt/solr/server/contexts/solr-jetty-context.xml
 COPY ./jetty.xml /opt/solr/server/etc/jetty.xml
-COPY ./solr-entrypoint.sh /usr/bin/entrypoint.sh
+COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 
 RUN chmod +x /usr/bin/entrypoint.sh
 
