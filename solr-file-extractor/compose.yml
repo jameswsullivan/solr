@@ -1,0 +1,20 @@
+name: solr-file-extractor
+
+services:
+  solr:
+    image: solr:${SOLR_RELEASE_TAG}
+    container_name: solr-file-extractor
+    hostname: solr-file-extractor
+    volumes:
+      - solr-data:/var/solr/data
+    ports:
+      - 8983:8983
+    entrypoint: 
+      - /bin/bash
+      - '-c'
+      - |
+        solr -f -force
+
+volumes:
+  solr-data:
+    driver: local
